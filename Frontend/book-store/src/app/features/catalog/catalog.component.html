@@ -1,0 +1,67 @@
+
+<div class="catalog-container">
+  <aside class="filter-section">
+    <h2>Filters</h2>
+
+    <div class="filter-group list">
+      <h3>Categories</h3>
+      <div *ngFor="let category of categories">
+        <label>
+          <input type="checkbox" (change)="toggleCategory(category)" />
+          {{ category }}
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-group list">
+      <h3>Authors</h3>
+      <div *ngFor="let author of authors">
+        <label>
+          <input type="checkbox" (change)="toggleAuthor(author)" />
+          {{ author }}
+        </label>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <h3>Price Range</h3>
+      <div class="price-range-inputs">
+        <label>
+          From: 
+          <input type="number" [(ngModel)]="selectedPriceRange.min" step="0.01" (input)="updatePriceRange()" placeholder="Min" />
+        </label>
+        <label>
+          To: 
+          <input type="number" [(ngModel)]="selectedPriceRange.max" step="0.01" (input)="updatePriceRange()" placeholder="Max" />
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <section class="catalog-section">
+    <div class="book-grid">
+      <div *ngFor="let book of displayedBooks" class="book-card" (click)="cardOnClick(book.id)">
+        <img [src]="book.coverImage" alt="{{ book.title }}" class="book-cover" />
+        <div class="info-container">
+          <h3>{{ book.title }}</h3>
+          <p>{{ book.author }}</p>
+          <p>{{ book.category }}</p>
+          <p>${{ book.price | number:'1.2-2' }}</p>
+          <div class="add-to-cart">
+            <button class="outlined-btn-green" (click)="addToCart($event, book)">
+              <img width="28" height="28" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
+              <span>Add to Cart</span>
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination-controls">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }}</span>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage * pageSize >= filteredBooks.length">Next</button>
+    </div>
+  </section>
+</div>
+

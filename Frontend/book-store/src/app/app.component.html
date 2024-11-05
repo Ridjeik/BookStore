@@ -1,0 +1,21 @@
+<header class="app-header">
+  <div class="app-name">
+    <h1>BookStore</h1>
+    <nav class="nav">
+      <a routerLink="/catalog" class="nav-link">Catalog</a>
+    </nav>
+  </div>
+  
+  <div class="user-side">
+    <a routerLink="/liked-books" class="nav-link liked-books-icon">
+      <img width="32" height="32" src="https://img.icons8.com/sf-regular/48/1A1A1A/like.png" alt="like"/>
+    </a>
+    <a routerLink="/cart" class="nav-link cart-icon">
+      <img width="32" height="32" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
+    </a>
+    <a routerLink="/profile" class="nav-link user-icon">
+      <img src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="User Icon" class="user-icon-img" />
+    </a>
+  </div>
+</header>
+<router-outlet></router-outlet>

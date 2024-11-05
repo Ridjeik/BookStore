@@ -1,0 +1,46 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.app-name {
+  display: flex;
+  align-items: center;
+}
+
+.app-name h1 {
+  font-size: 24px;
+  color: #333;
+  
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  width: auto;
+}
+
+.nav-link {
+  margin-left: 20px;
+  line-height: 24px;
+  font-size: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #333;
+}
+
+.user-icon {
+  margin-left: 20px;
+}
+
+.user-icon-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}

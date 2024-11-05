@@ -1,0 +1,32 @@
+<div class="book-details" *ngIf="currentBook">
+  <div class="back">
+    <button class="outlined-btn-green" routerLink="/catalog">
+      <img width="28" height="28" src="https://img.icons8.com/sf-black-filled/64/1A1A1A/return.png" alt="return"/>
+      <span>Back to Catalog</span>
+    </button>
+  </div>
+  <div class="book-cover">
+    <img [src]="currentBook.coverImage" [alt]="currentBook.title" />
+  </div>
+
+  <div class="book-info">
+    <h2 class="book-title">{{ currentBook.title }}</h2>
+    <p class="book-author">by {{ currentBook.author }}</p>
+    <p class="book-category">Category: {{ currentBook.category }}</p>
+    <p class="book-price">Price: ${{ currentBook.price | number: '1.2-2' }}</p>
+    <p class="book-description">{{ currentBook.description }}</p>
+    
+    <div style="display: flex; align-items: center;">
+      <button class="outlined-btn-red"  style="margin-left: 16px;">
+        <img width="28" height="28" src="https://img.icons8.com/sf-regular/48/1A1A1A/like.png" alt="like"/>
+        <span>Add to Favorite</span>
+      </button>
+      <button class="outlined-btn-green" style="margin-left: 16px;" (click)="addToCart(currentBook)">
+        <img width="28" height="28" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
+        <span>Add to Cart</span>
+        </button>
+    </div>
+  </div>
+</div>
+
+
