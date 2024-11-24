@@ -1,0 +1,48 @@
+<section class="cart">
+  <div class="cart-body">
+    <div class="cart-header">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+        Cart
+      </h2>
+    </div>
+    <div class="cart-content">
+      <div *ngIf="cartItems.length != 0">
+        <div *ngFor="let item of cartItems; let i = index" class="cart-item">
+          <div class="item-details">
+            <span class="item-title">{{ item.title }}</span>
+            <span class="item-price">Price: ${{ item.price.toFixed(2) }}</span>
+            <span *ngIf="item.hasDiscount" class="item-price">Discount: {{item.discount}}%</span>
+          </div>
+          <button class="remove-button" (click)="removeFromCart(cartItems[i].id)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+        <div class="clear">
+          <button class="clear-cart" (click)="clearCart()">Clear Cart</button>
+        </div>
+      </div>
+      <div *ngIf="cartItems.length == 0">
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div *ngIf="cartItems.length != 0" class="total">
+        <span>Total without discount:</span>
+        <span>${{ totalWithoutDiscount.toFixed(2) }}</span>
+      </div>
+      <div *ngIf="cartItems.length != 0" class="total">
+        <span>Discount:</span>
+        <span>- ${{ discount.toFixed(2) }}</span>
+      </div>
+      <div class="last-total">
+        <span>Total:</span>
+        <span>${{ total.toFixed(2) }}</span>
+      </div>
+      <div class="checkout-div">
+        <button class="checkout">Checkout</button>
+      </div>
+    </div>
+  </div>
+  <p-toast [style]="{ 'margin-top': '50px'}"></p-toast>
+</section>

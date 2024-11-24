@@ -4,6 +4,9 @@
     <nav class="nav">
       <a routerLink="/catalog" class="nav-link">Catalog</a>
     </nav>
+    <nav class="nav">
+      <a routerLink="/admin-books" class="nav-link">Admin Dashboard</a>
+    </nav>
   </div>
   
   <div class="user-side">
@@ -13,9 +16,12 @@
     <a routerLink="/cart" class="nav-link cart-icon">
       <img width="32" height="32" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
     </a>
-    <a routerLink="/profile" class="nav-link user-icon">
+    <a class="nav-link user-icon" (click)="togglePopup()">
       <img src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="User Icon" class="user-icon-img" />
     </a>
+    <app-account
+    *ngIf="showPopup"
+    (close)="togglePopup()"></app-account>
   </div>
 </header>
 <router-outlet></router-outlet>

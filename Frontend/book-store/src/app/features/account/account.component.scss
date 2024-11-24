@@ -1,0 +1,144 @@
+.user-popup {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  z-index: 1000;
+  width: 280px;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 18px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #fff transparent;
+    filter: drop-shadow(0 -1px 1px rgb(0 0 0 / 0.05));
+  }
+}
+
+.logged-in-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.welcome-text {
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #111827;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+  }
+}
+
+.form-input {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  transition: all 150ms ease;
+  width: 90%;
+  
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px #2563eb;
+  }
+  
+  &.error {
+    border-color: #dc2626;
+    
+    &:focus {
+      box-shadow: 0 0 0 1px #dc2626;
+    }
+  }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.875rem;
+  color: #dc2626;
+  
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  transition: all 150ms ease;
+  cursor: pointer;
+  width: 100%;
+  
+  svg {
+    flex-shrink: 0;
+  }
+  
+  &.btn-primary {
+    background-color: #2563eb;
+    color: white;
+    
+    &:hover {
+      background-color: #1d4ed8;
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #93c5fd;
+    }
+  }
+  
+  &.btn-logout {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-color: #e5e7eb;
+    
+    &:hover {
+      background-color: #e5e7eb;
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px #e5e7eb;
+    }
+  }
+}

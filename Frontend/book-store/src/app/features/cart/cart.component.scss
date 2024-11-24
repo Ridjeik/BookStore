@@ -1,0 +1,152 @@
+.cart-page {
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 30%;
+
+  box-shadow: 
+  rgba(100, 100, 111, 0.2) 0px 50px 150px -30px, 
+  rgba(255, 255, 255, 0.2) 0px 30px 70px -30px;
+
+  border-radius: 40px;
+}
+
+.cart-body {
+  margin-top: 20px;
+}
+
+.cart {
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.cart-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cart-content {
+  padding: 1rem;
+
+  .clear {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: right;
+
+    .clear-cart {
+      width: 30%;
+      padding: 0.5rem;
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #dc2626;
+      }
+    }
+  }
+}
+
+.cart-item {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-weight: 500;
+}
+
+.item-price {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.remove-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.remove-button:hover {
+  color: #ef4444;
+}
+
+.cart-footer {
+  padding: 1rem;
+  border-top: 1px solid #e5e7eb;
+
+  .last-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.125rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .checkout-div {
+    display: flex;
+    justify-content: right;
+
+    .checkout {
+      width: 30%;
+        padding: 0.5rem;
+        background-color: #386B47;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        font-size: 1rem;
+        cursor: pointer;
+  
+        &:hover {
+          background-color: #284b32;
+        }
+    }
+  }
+}
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}

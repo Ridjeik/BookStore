@@ -1,32 +1,141 @@
 <div class="book-details" *ngIf="currentBook">
-  <div class="back">
-    <button class="outlined-btn-green" routerLink="/catalog">
-      <img width="28" height="28" src="https://img.icons8.com/sf-black-filled/64/1A1A1A/return.png" alt="return"/>
-      <span>Back to Catalog</span>
-    </button>
-  </div>
-  <div class="book-cover">
-    <img [src]="currentBook.coverImage" [alt]="currentBook.title" />
-  </div>
-
-  <div class="book-info">
-    <h2 class="book-title">{{ currentBook.title }}</h2>
-    <p class="book-author">by {{ currentBook.author }}</p>
-    <p class="book-category">Category: {{ currentBook.category }}</p>
-    <p class="book-price">Price: ${{ currentBook.price | number: '1.2-2' }}</p>
-    <p class="book-description">{{ currentBook.description }}</p>
-    
-    <div style="display: flex; align-items: center;">
-      <button class="outlined-btn-red"  style="margin-left: 16px;">
-        <img width="28" height="28" src="https://img.icons8.com/sf-regular/48/1A1A1A/like.png" alt="like"/>
-        <span>Add to Favorite</span>
+  <div class="details-back">
+    <div class="back">
+      <button class="outlined-btn-green" routerLink="/catalog">
+        <img width="28" height="28" src="https://img.icons8.com/sf-black-filled/64/1A1A1A/return.png" alt="return"/>
+        <span>Back to Catalog</span>
       </button>
-      <button class="outlined-btn-green" style="margin-left: 16px;" (click)="addToCart(currentBook)">
-        <img width="28" height="28" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
-        <span>Add to Cart</span>
+    </div>
+    <div class="book">
+      <div class="book-cover">
+        <img [src]="currentBook.coverImage" [alt]="currentBook.title" />
+      </div>
+    
+      <div class="book-info">
+        <h2 class="book-title">{{ currentBook.title }}</h2>
+        <p class="book-author">by {{ currentBook.author }}</p>
+        <div class="stars">
+          <span *ngFor="let star of getRatingStars(currentBook.rating)">
+            <ng-container *ngIf="star === 1">★</ng-container>
+            <ng-container *ngIf="star === 0">☆</ng-container>
+          </span>
+        </div>
+        <p class="book-category">Genre: {{ currentBook.category }}</p>
+        <p>Pages: {{currentBook.pageCount}}</p>
+        <p>Publisher: {{currentBook.publisher}}</p>
+        <p>ISBN: {{currentBook.isbn}}</p>
+        <p>Published on: {{currentBook.publicationDate | date : 'yyyy'}}</p>
+        
+        <p class="book-description">{{ currentBook.description }}</p>
+        
+        <p>
+          <span 
+            class="discounted-price"
+            *ngIf="currentBook.hasDiscount">
+            ${{ (currentBook.price * (1 - currentBook.discount / 100)) | number:'1.2-2' }}
+          </span>
+          <span 
+            class="crossed-original-price"
+            *ngIf="currentBook.hasDiscount" 
+            style="text-decoration: line-through; color: gray;">
+            ${{ currentBook.price | number:'1.2-2' }}
+          </span>
+          <span class="original-price" *ngIf="!currentBook.hasDiscount">
+            ${{ currentBook.price | number:'1.2-2' }}
+          </span>
+        </p>
+
+        <div style="display: flex; align-items: center;">
+          <button class="outlined-btn-green" (click)="addToCart(currentBook)">
+            <img width="28" height="28" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
+            <span>Add to Cart</span>
+          </button>
+          <button class="outlined-btn-red"  style="margin-left: 16px;">
+            <img width="28" height="28" src="https://img.icons8.com/sf-regular/48/1A1A1A/like.png" alt="like"/>
+            <span>Add to Favorite</span>
+          </button>
+        </div>
+    </div>
+    </div>
+  
+    <div class="reviews-section">
+      <h3>Reviews</h3>
+      
+      <div *ngIf="authService.isLoggedIn()" class="review-form-container">
+        <button 
+          *ngIf="!showReviewForm"
+          (click)="showReviewForm = true"
+          class="outlined-btn-green">
+          Write a Review
         </button>
+        
+        <form *ngIf="showReviewForm" (submit)="submitReview()" class="review-form">
+          <div class="rating-input">
+            <label>Rating:</label>
+            <div class="stars">
+              <button 
+                type="button"
+                *ngFor="let star of getRatingStars(5); let i = index"
+                (click)="newReview.rating = i + 1"
+                [class.active]="i < newReview.rating"
+                class="star-btn">
+                ★
+              </button>
+            </div>
+          </div>
+          
+          <div class="review-text">
+            <label for="review">Your Review:</label>
+            <textarea
+              id="review"
+              [(ngModel)]="newReview.text"
+              name="review"
+              required
+              rows="4"
+              placeholder="Share your thoughts about this book...">
+            </textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" 
+              class="outlined-btn-red"
+              (click)="showReviewForm = false">
+              Cancel
+            </button>
+            <button type="submit" 
+              class="outlined-btn-green"
+              [disabled]="!newReview.text.trim()">
+              Submit Review
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <div *ngIf="!authService.isLoggedIn()" class="login-prompt">
+        <p>Please login to write a review</p>
+      </div>
+      
+      <div class="reviews-list">
+        <div *ngIf="reviews.length === 0" class="no-reviews">
+          No reviews yet. Be the first to review this book!
+        </div>
+        
+        <div *ngFor="let review of reviews" class="review-item">
+          <div class="review-header">
+            <span class="username">{{ review.username }}</span>
+            <div class="stars">
+              <span *ngFor="let star of getRatingStars(review.rating)">
+                <ng-container *ngIf="star === 1">★</ng-container>
+                <ng-container *ngIf="star === 0">☆</ng-container>
+              </span>
+            </div>
+            <span class="date">{{ review.date | date }}</span>
+          </div>
+          <p class="review-text">{{ review.text }}</p>
+        </div>
+      </div>
     </div>
   </div>
+  
 </div>
-
 
