@@ -13,4 +13,5 @@ export interface Book {
   hasDiscount: boolean;
   discount: number;
   rating: number;
+  copiesAvailable: number;
 }

@@ -4,20 +4,17 @@
     <nav class="nav">
       <a routerLink="/catalog" class="nav-link">Catalog</a>
     </nav>
-    <nav class="nav">
+    <nav *ngIf="this.authService.isAdmin()" class="nav">
       <a routerLink="/admin-books" class="nav-link">Admin Dashboard</a>
     </nav>
   </div>
   
   <div class="user-side">
-    <a routerLink="/liked-books" class="nav-link liked-books-icon">
-      <img width="32" height="32" src="https://img.icons8.com/sf-regular/48/1A1A1A/like.png" alt="like"/>
-    </a>
     <a routerLink="/cart" class="nav-link cart-icon">
-      <img width="32" height="32" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
     </a>
     <a class="nav-link user-icon" (click)="togglePopup()">
-      <img src="https://img.icons8.com/ios/50/user-male-circle--v1.png" alt="User Icon" class="user-icon-img" />
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32" fill="currentColor" class="icon" id="account" style="enable-background:new 0 0 32 32" xml:space="preserve"><path d="M16 14c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7zm0-12c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5zM23.942 32H8.058A4.062 4.062 0 0 1 4 27.942c0-6.616 5.383-12 12-12s12 5.384 12 12A4.062 4.062 0 0 1 23.942 32zM16 17.942c-5.514 0-10 4.486-10 10A2.06 2.06 0 0 0 8.058 30h15.884A2.06 2.06 0 0 0 26 27.942c0-5.514-4.486-10-10-10z"/></svg>
     </a>
     <app-account
     *ngIf="showPopup"
@@ -25,3 +22,4 @@
   </div>
 </header>
 <router-outlet></router-outlet>
+<p-toast [style]="{ 'margin-top': '50px'}"></p-toast>

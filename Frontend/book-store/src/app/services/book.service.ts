@@ -26,7 +26,8 @@ export class BookService {
       isbn: '9780765397539',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 3
     },
     {
       id: 2,
@@ -42,7 +43,8 @@ export class BookService {
       isbn: '9781250229861',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 7
     },
     {
       id: 3,
@@ -58,7 +60,8 @@ export class BookService {
       isbn: '9781250826794',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 32
     },
     {
       id: 4,
@@ -74,7 +77,8 @@ export class BookService {
       isbn: '9780441013593',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 2
     },
     {
       id: 5,
@@ -90,7 +94,8 @@ export class BookService {
       isbn: '9780061120084',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 0
     },
     {
       id: 6,
@@ -106,7 +111,8 @@ export class BookService {
       isbn: '9780451524935',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 8
     },
     {
       id: 7,
@@ -122,7 +128,8 @@ export class BookService {
       isbn: '9780547928227',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 3
     },
     {
       id: 8,
@@ -138,7 +145,8 @@ export class BookService {
       isbn: '9781503290563',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 0
     },
     {
       id: 9,
@@ -154,7 +162,8 @@ export class BookService {
       isbn: '9780316769488',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 3
     },
     {
       id: 10,
@@ -170,7 +179,8 @@ export class BookService {
       isbn: '9780307743657',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 3
     },
     {
       id: 11,
@@ -186,7 +196,8 @@ export class BookService {
       isbn: '9780062457714',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 3
     },
     {
       id: 12,
@@ -202,7 +213,8 @@ export class BookService {
       isbn: '9781524763138',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 31
     },
     {
       id: 13,
@@ -218,7 +230,8 @@ export class BookService {
       isbn: '9780307387899',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 20
     },
     {
       id: 14,
@@ -234,7 +247,8 @@ export class BookService {
       isbn: '9780399590504',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 6
     },
     {
       id: 15,
@@ -250,7 +264,8 @@ export class BookService {
       isbn: '9781594633669',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 9
     },
     {
       id: 16,
@@ -266,7 +281,8 @@ export class BookService {
       isbn: '9780062316097',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 10
     },
     {
       id: 17,
@@ -282,7 +298,8 @@ export class BookService {
       isbn: '9780385534635',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 11
     },
     {
       id: 18,
@@ -298,7 +315,8 @@ export class BookService {
       isbn: '9781250301697',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 12
     },
     {
       id: 19,
@@ -314,7 +332,8 @@ export class BookService {
       isbn: '9780316556347',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 19
     },
     {
       id: 20,
@@ -330,7 +349,8 @@ export class BookService {
       isbn: '9780735219090',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 2
     },
     {
       id: 21,
@@ -346,7 +366,8 @@ export class BookService {
       isbn: '9780486275437',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 11
     },
     {
       id: 22,
@@ -362,7 +383,8 @@ export class BookService {
       isbn: '9780486282114',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 6
     },
     {
       id: 23,
@@ -378,7 +400,8 @@ export class BookService {
       isbn: '9780486411093',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 5
     },
     {
       id: 24,
@@ -394,7 +417,8 @@ export class BookService {
       isbn: '9780805209991',
       hasDiscount: false,
       discount: 0,
-      rating: 0
+      rating: 0,
+      copiesAvailable: 1
     }
   ];
   

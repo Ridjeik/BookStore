@@ -3,8 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f8f9fa;
+  background-color: #386B47;
   border-bottom: 1px solid #dee2e6;
+  color: white;
+
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .app-name {
@@ -14,7 +17,6 @@
 
 .app-name h1 {
   font-size: 24px;
-  color: #333;
   
   margin: 0;
 }
@@ -32,7 +34,7 @@
   font-size: 20px;
   cursor: pointer;
   text-decoration: none;
-  color: #333;
+  color: white;
 }
 
 .user-icon {

@@ -8,13 +8,18 @@
     </div>
     <div class="cart-content">
       <div *ngIf="cartItems.length != 0">
-        <div *ngFor="let item of cartItems; let i = index" class="cart-item">
+        <div *ngFor="let item of cartItems" class="cart-item">
           <div class="item-details">
-            <span class="item-title">{{ item.title }}</span>
-            <span class="item-price">Price: ${{ item.price.toFixed(2) }}</span>
-            <span *ngIf="item.hasDiscount" class="item-price">Discount: {{item.discount}}%</span>
+            <span class="item-title">{{ item.book.title }}</span>
+            <span class="item-price">Price: ${{ item.book.price.toFixed(2) }}</span>
+            <span *ngIf="item.book.discount" class="item-price">Discount: {{item.book.discount}}%</span>
+            <div class="quantity-control">
+              <button (click)="updateQuantity(item.book.id, item.quantity - 1)">-</button>
+              <span>{{ item.quantity }}</span>
+              <button (click)="updateQuantity(item.book.id, item.quantity + 1)">+</button>
+            </div>
           </div>
-          <button class="remove-button" (click)="removeFromCart(cartItems[i].id)">
+          <button class="remove-button" (click)="removeFromCart(item.book.id)">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
           </button>
         </div>
@@ -44,5 +49,4 @@
       </div>
     </div>
   </div>
-  <p-toast [style]="{ 'margin-top': '50px'}"></p-toast>
 </section>

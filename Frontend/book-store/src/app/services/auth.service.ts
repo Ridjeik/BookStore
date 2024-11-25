@@ -33,6 +33,11 @@ export class AuthService {
     return userInfo ? JSON.parse(userInfo) : null;
   }
 
+  isAdmin(): boolean {
+    const userInfo = this.getUserInfo();
+    return userInfo && userInfo.role === 'admin';
+  }
+
   logout(): void {
     localStorage.removeItem(this.USER_KEY);
   }
