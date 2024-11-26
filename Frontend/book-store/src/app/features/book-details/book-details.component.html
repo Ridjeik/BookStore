@@ -29,6 +29,17 @@
         <p class="book-description">{{ currentBook.description }}</p>
         
         <p>
+          <span *ngIf="currentBook.copiesAvailable != 0" style="color: green; display: flex; justify-content: start; align-items: center; gap: 5px; font-size: 24px;">
+            <svg xmlns="http://www.w3.org/2000/svg"  width="24" height="24" fill="currentColor" class="icon" viewBox="0 0 32 32"><path d="M29 19a1 1 0 0 0 1-1v-1.24a2.05 2.05 0 0 0-1.42-2l-1.69-.56-.52-3A4.17 4.17 0 0 0 22.09 8H19V5.89A1.88 1.88 0 0 0 17.11 4H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h.08a4 4 0 0 0 0 .5 3.52 3.52 0 1 0 1-2.49H5L4 22V6h13v16h-3a1 1 0 0 0 0 2h5.88a2.73 2.73 0 0 0-.05.5 3.6 3.6 0 0 0 6.44 2.11A3.38 3.38 0 0 0 27 24.5a4 4 0 0 0 0-.5h1a2 2 0 0 0 2-2 1 1 0 0 0-1-1 1 1 0 0 0-1 1h-2.1a3.56 3.56 0 0 0-2.49-1 3.65 3.65 0 0 0-2.52 1H19v-6h6.79l2.21.76V18a1 1 0 0 0 1 1zM7.5 23A1.5 1.5 0 1 1 6 24.5 1.5 1.5 0 0 1 7.5 23zm15.91 0a1.6 1.6 0 0 1 1.28.61 1.43 1.43 0 0 1 0 1.78 1.6 1.6 0 0 1-1.28.61 1.5 1.5 0 1 1 0-3zm-1.32-13a2.22 2.22 0 0 1 2.31 1.57l.42 2.43H19v-4z" data-name="delivery truck"/></svg>
+            In Stock
+          </span>
+          <span *ngIf="currentBook.copiesAvailable === 0" style="color: red; display: flex; justify-content: start; align-items: center; gap: 5px; font-size: 24px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"  fill="currentColor" class="icon" viewBox="0 0 32 32"><path d="M29 19a1 1 0 0 0 1-1v-1.24a2.05 2.05 0 0 0-1.42-2l-1.69-.56-.52-3A4.17 4.17 0 0 0 22.09 8H19V5.89A1.88 1.88 0 0 0 17.11 4H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h.08a4 4 0 0 0 0 .5 3.52 3.52 0 1 0 1-2.49H5L4 22V6h13v16h-3a1 1 0 0 0 0 2h5.88a2.73 2.73 0 0 0-.05.5 3.6 3.6 0 0 0 6.44 2.11A3.38 3.38 0 0 0 27 24.5a4 4 0 0 0 0-.5h1a2 2 0 0 0 2-2 1 1 0 0 0-1-1 1 1 0 0 0-1 1h-2.1a3.56 3.56 0 0 0-2.49-1 3.65 3.65 0 0 0-2.52 1H19v-6h6.79l2.21.76V18a1 1 0 0 0 1 1zM7.5 23A1.5 1.5 0 1 1 6 24.5 1.5 1.5 0 0 1 7.5 23zm15.91 0a1.6 1.6 0 0 1 1.28.61 1.43 1.43 0 0 1 0 1.78 1.6 1.6 0 0 1-1.28.61 1.5 1.5 0 1 1 0-3zm-1.32-13a2.22 2.22 0 0 1 2.31 1.57l.42 2.43H19v-4z" data-name="delivery truck"/></svg>
+            Out of Stock
+          </span>
+        </p>
+
+        <p>
           <span 
             class="discounted-price"
             *ngIf="currentBook.hasDiscount">
@@ -46,14 +57,12 @@
         </p>
 
         <div style="display: flex; align-items: center;">
-          <button class="outlined-btn-green" (click)="addToCart(currentBook)">
-            <img width="28" height="28" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
-            <span>Add to Cart</span>
-          </button>
-          <button class="outlined-btn-red"  style="margin-left: 16px;">
-            <img width="28" height="28" src="https://img.icons8.com/sf-regular/48/1A1A1A/like.png" alt="like"/>
-            <span>Add to Favorite</span>
-          </button>
+          <div class="add-to-cart">
+            <button [disabled]="currentBook.copiesAvailable === 0" class="outlined-btn-green" (click)="addToCart($event, currentBook)">
+              <img width="28" height="28" src="https://img.icons8.com/windows/32/shopping-cart.png" alt="shopping-cart"/>
+              <span>Add to Cart</span>
+              </button>
+          </div>
         </div>
     </div>
     </div>

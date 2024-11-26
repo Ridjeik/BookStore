@@ -1,13 +1,12 @@
-// src/app/admin/admin.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BookService } from '../../services/book.service';
 import { ReviewService } from '../../services/review.service';
 import { Book } from '../../types/book';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Discount } from '../../types/discount';
 import { MessageService } from 'primeng/api';
-import { Toast, ToastModule } from 'primeng/toast';
+import { ToastModule } from 'primeng/toast';
 import { RippleModule } from 'primeng/ripple';
 
 @Component({
@@ -32,29 +31,34 @@ export class AdminBooksComponent implements OnInit {
   selectedBook: Book | null = null;
 
   discountTypes = ['Book', 'Genre', 'Author'];
-
   discountValues: string[] = [];
-
   discountLabels: string[] = [];
 
   activeTab: 'books' | 'reviews' | 'discounts' = 'books';
 
   constructor(
-    private bookService: BookService,
+    public bookService: BookService,
     private reviewService: ReviewService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private datePipe: DatePipe
   ) {
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
+      publisher: ['', Validators.required],
+      publicationDate: [new Date(), Validators.required],
+      pageCount: [1, [Validators.required, Validators.min(1)]],
+      isbn: ['', Validators.required],
       description: ['', Validators.required],
-      price: [0, [Validators.required, Validators.min(0)]],
+      price: [0.01, [Validators.required, Validators.min(0.01)]],
+      coverImage: ['', Validators.required],
       category: ['', Validators.required],
+      copiesAvailable: [0, [Validators.required, Validators.min(0)]],
     });
 
     this.discountForm = this.fb.group({
-      type: ['book', Validators.required],
+      type: ['Book', Validators.required],
       value: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(0), Validators.max(100)]]
     });
@@ -84,42 +88,47 @@ export class AdminBooksComponent implements OnInit {
     localStorage.setItem('discounts', JSON.stringify(this.discounts));
   }
 
+  getBookTitle(id: number): string | undefined {
+    return this.books.find(book => book.id === id)?.title;
+  }
+
   onBookSubmit(): void {
     if (this.bookForm.valid) {
       const bookData = this.bookForm.value;
+      bookData.publicationDate = new Date(bookData.publicationDate);
       if (this.selectedBook) {
         this.bookService.updateBook({ ...this.selectedBook, ...bookData });
-
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book updated successfully'})
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book updated successfully'});
       } else {
         this.bookService.addBook(bookData);
-
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book added successfully'})
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book added successfully'});
       }
       this.loadBooks();
       this.resetBookForm();
     }
   }
 
+  getDiscountValueLabel(discount: Discount): string | undefined{
+    return discount.type === 'Book' ? this.bookService.getBookById(parseInt(discount.value))?.title : discount.value
+  }
+
   editBook(book: Book): void {
     this.selectedBook = book;
-
-    this.bookForm.patchValue(book);
+    this.bookForm.patchValue({
+      ...book,
+      publicationDate: this.datePipe.transform(book.publicationDate, 'yyyy-MM-dd')
+    });
   }
 
   deleteBook(id: number): void {
     this.bookService.deleteBook(id);
-
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book deleted successfully'})
-
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book deleted successfully'});
     this.loadBooks();
   }
 
   deleteReview(id: string): void {
     this.reviewService.deleteReview(id);
-
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Review deleted successfully'})
-
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Review deleted successfully'});
     this.loadReviews();
   }
 
@@ -137,11 +146,11 @@ export class AdminBooksComponent implements OnInit {
         break;
       case 'Genre':
         this.discountValues = Array.from(new Set(this.books.map(book => book.category)));
-        this.discountLabels = Array.from(new Set(this.books.map(book => book.category)));
+        this.discountLabels = this.discountValues;
         break;
       case 'Author':
         this.discountValues = Array.from(new Set(this.books.map(book => book.author)));
-        this.discountLabels = Array.from(new Set(this.books.map(book => book.author)));
+        this.discountLabels = this.discountValues;
         break;
     }
   }
@@ -163,7 +172,6 @@ export class AdminBooksComponent implements OnInit {
 
   deleteDiscount(id: number): void {
     this.bookService.removeDiscount(this.discounts.find(discount => discount.id === id)!);
-
     this.discounts = this.discounts.filter(discount => discount.id !== id);
     this.saveDiscounts();
   }

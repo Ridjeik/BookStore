@@ -1,4 +1,3 @@
-<!-- src/app/admin/admin.component.html -->
 <section class="admin-page">
   <div class="admin-body">
     <div class="admin-header">
@@ -13,23 +12,114 @@
       </div>
     </div>
     <div class="admin-content">
-      <!-- Books Tab -->
       <div *ngIf="activeTab === 'books'" class="books-tab">
         <div class="left-column">
           <div class="book-list">
             <h3>Book List</h3>
-            <div *ngFor="let book of books" class="book-item">
+            <div class="scrollable">
+              <div *ngFor="let book of books" class="book-item">
+                <div class="item-details">
+                  <span class="item-title">{{ book.title }}</span>
+                  <span class="item-author">by {{ book.author }}</span>
+                  <span class="item-price">Price: ${{ book.price.toFixed(2) }}</span>
+                  <span *ngIf="book.hasDiscount" class="item-discount">Discount: {{ book.discount }}%</span>
+                </div>
+                <div class="item-actions">
+                  <button class="edit-button" (click)="editBook(book)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                  </button>
+                  <button class="remove-button" (click)="deleteBook(book.id)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="right-column">
+          <h3>{{ selectedBook ? 'Edit Book' : 'Add New Book' }}</h3>
+          <div class="scrollable">
+            <form [formGroup]="bookForm" (ngSubmit)="onBookSubmit()" class="book-form">
+              <div class="form-group">
+                <label for="title">Title</label>
+                <input id="title" type="text" formControlName="title">
+              </div>
+              <div class="form-group">
+                <label for="author">Author</label>
+                <input id="author" type="text" formControlName="author">
+              </div>
+              <div class="form-group">
+                <label for="publisher">Publisher</label>
+                <input id="publisher" type="text" formControlName="publisher">
+              </div>
+              <div class="form-group">
+                <label for="publicationDate">Publication Date</label>
+                <input id="publicationDate" type="date" formControlName="publicationDate">
+              </div>
+              <div class="form-group">
+                <label for="pageCount">Page Count</label>
+                <input id="pageCount" type="number" formControlName="pageCount">
+              </div>
+              <div class="form-group">
+                <label for="isbn">ISBN</label>
+                <input id="isbn" type="text" formControlName="isbn">
+              </div>
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" formControlName="description"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="price">Price</label>
+                <input id="price" type="number" formControlName="price">
+              </div>
+              <div class="form-group">
+                <label for="coverImage">Cover Image URL</label>
+                <input id="coverImage" type="text" formControlName="coverImage">
+              </div>
+              <div class="form-group">
+                <label for="category">Category</label>
+                <input id="category" type="text" formControlName="category">
+              </div>
+              <div class="form-group">
+                <label for="copiesAvailable">Copies Available</label>
+                <input id="copiesAvailable" type="number" formControlName="copiesAvailable">
+              </div>
+              <button type="submit" [disabled]="!bookForm.valid">{{ selectedBook ? 'Update' : 'Add' }} Book</button>
+              <button type="button" (click)="resetBookForm()">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activeTab === 'reviews'" class="reviews-tab">
+        <h3>Review List</h3>
+        <div class="scrollable">
+          <div *ngFor="let review of reviews" class="review-item">
+            <div class="item-details">
+              <span class="item-title">Review for Book: {{ getBookTitle(review.bookId) }}</span>
+              <span class="item-rating">Rating: {{ review.rating }}</span>
+              <span class="item-text">{{ review.text }}</span>
+            </div>
+            <button class="remove-button" (click)="deleteReview(review.id)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activeTab === 'discounts'" class="discounts-tab">
+        <div class="left-column">
+          <h3>Discount List</h3>
+          <div class="scrollable-small">
+            <div *ngFor="let discount of discounts" class="discount-item">
               <div class="item-details">
-                <span class="item-title">{{ book.title }}</span>
-                <span class="item-author">by {{ book.author }}</span>
-                <span class="item-price">Price: ${{ book.price.toFixed(2) }}</span>
-                <span *ngIf="book.hasDiscount" class="item-discount">Discount: {{ book.discount }}%</span>
+                <span class="item-type">{{ discount.type }}</span>
+                <span class="item-value">{{ getDiscountValueLabel(discount)}}</span>
+                <span class="item-amount">{{ discount.amount }}% off</span>
               </div>
               <div class="item-actions">
-                <button class="edit-button" (click)="editBook(book)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                </button>
-                <button class="remove-button" (click)="deleteBook(book.id)">
+                <button class="remove-button" (click)="deleteDiscount(discount.id)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 </button>
               </div>
@@ -37,71 +127,11 @@
           </div>
         </div>
         <div class="right-column">
-          <form [formGroup]="bookForm" (ngSubmit)="onBookSubmit()" class="book-form">
-            <h3>{{ selectedBook ? 'Edit Book' : 'Add New Book' }}</h3>
-            <div class="form-group">
-              <label for="title">Title</label>
-              <input id="title" type="text" formControlName="title">
-            </div>
-            <div class="form-group">
-              <label for="author">Author</label>
-              <input id="author" type="text" formControlName="author">
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea id="description" formControlName="description"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="price">Price</label>
-              <input id="price" type="number" formControlName="price">
-            </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <input id="category" type="text" formControlName="category">
-            </div>
-            <button type="submit" [disabled]="!bookForm.valid">{{ selectedBook ? 'Update' : 'Add' }} Book</button>
-            <button type="button" (click)="resetBookForm()">Cancel</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- Reviews Tab -->
-      <div *ngIf="activeTab === 'reviews'" class="reviews-tab">
-        <h3>Review List</h3>
-        <div *ngFor="let review of reviews" class="review-item">
-          <div class="item-details">
-            <span class="item-title">Review for Book ID: {{ review.bookId }}</span>
-            <span class="item-rating">Rating: {{ review.rating }}</span>
-            <span class="item-text">{{ review.text }}</span>
-          </div>
-          <button class="remove-button" (click)="deleteReview(review.id)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Discounts Tab -->
-      <div *ngIf="activeTab === 'discounts'" class="discounts-tab">
-        <div class="left-column">
-          <h3>Discount List</h3>
-          <div *ngFor="let discount of discounts" class="discount-item">
-            <div class="item-details">
-              <span class="item-type">{{ discount.type }}</span>
-              <span class="item-value">{{ discount.value }}</span>
-              <span class="item-amount">{{ discount.amount }}% off</span>
-            </div>
-            <div class="item-actions">
-              <button class="remove-button" (click)="deleteDiscount(discount.id)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="right-column">
           <form [formGroup]="discountForm" (ngSubmit)="onDiscountSubmit()" class="discount-form">
             <h3>Add New Discount</h3>
             <div class="form-group">
-              <label for="discountType">Discount Type</label>
+              <label for="disc
+ountType">Discount Type</label>
               <select id="discountType" formControlName="type" (change)="updateDiscountValues()">
                 <option *ngFor="let type of discountTypes" [value]="type">{{ type }}</option>
               </select>
@@ -124,3 +154,4 @@
   </div>
   <p-toast [style]="{ 'margin-top': '50px'}"></p-toast>
 </section>
+

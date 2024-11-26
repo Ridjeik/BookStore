@@ -66,6 +66,10 @@ export class CartComponent implements OnInit {
   }
 
   updateQuantity(bookId: number, newQuantity: number): void {
+    if (newQuantity > this.bookService.getBookById(bookId)!.copiesAvailable) {
+      return;
+    }
+
     if (newQuantity > 0) {
       this.cartService.addItem(bookId, newQuantity - this.cartItems.find(item => item.book.id === bookId)!.quantity);
       this.loadCartBooks();

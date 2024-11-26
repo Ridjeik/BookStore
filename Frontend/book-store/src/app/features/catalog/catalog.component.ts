@@ -116,6 +116,11 @@ export class CatalogComponent implements OnInit {
 
     event.stopPropagation();
 
+    if (this.cartService.getCartItems().find(item => item.itemId === book.id)?.quantity === book.copiesAvailable) {
+      this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Sorry, no more copies available.' });
+      return;
+    }
+
     this.cartService.addItem(book.id);
 
     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book added to cart' });

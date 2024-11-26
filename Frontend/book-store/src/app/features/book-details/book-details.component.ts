@@ -7,6 +7,8 @@ import { ReviewService } from '../../services/review.service';
 import { AuthService } from '../../services/auth.service';
 import { Book } from '../../types/book';
 import { Review } from '../../types/review';
+import { CartService } from '../../services/cart.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-book-details',
@@ -33,7 +35,9 @@ export class BookDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private bookService: BookService,
     private reviewService: ReviewService,
-    public authService: AuthService
+    public authService: AuthService,
+    private messageService: MessageService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -46,8 +50,18 @@ export class BookDetailsComponent implements OnInit {
     }
   }
 
-  addToCart(book: Book): void {
-    // Your existing cart logic
+  addToCart(event:Event, book: Book): void {
+
+    event.stopPropagation();
+
+    if (this.cartService.getCartItems().find(item => item.itemId === book.id)?.quantity === book.copiesAvailable) {
+      this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Sorry, no more copies available.' });
+      return;
+    }
+
+    this.cartService.addItem(book.id);
+
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book added to cart' });
   }
 
   submitReview(): void {
