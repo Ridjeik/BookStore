@@ -11,4 +11,5 @@ export const routes: Routes = [
   { path: 'catalog/:id', component: BookDetailsComponent },
   { path: 'cart', component: CartComponent, canActivate: [userGuard] },
   { path: 'admin-books', component: AdminBooksComponent, canActivate: [adminGuard] },
+  { path: '', redirectTo: '/catalog', pathMatch: 'full' },
 ];

@@ -5,7 +5,6 @@ import { MessageService } from 'primeng/api';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
-  const router = inject(Router);
   const toastService = inject(MessageService)
 
   if (authService.isLoggedIn()) {
@@ -17,7 +16,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
     }
     
   } else {
-    alert('You need to login to access this page');
+    toastService.add({severity:'info', summary:'Info', detail:'You need to login to access this page'});
     return false;
   }
 };
