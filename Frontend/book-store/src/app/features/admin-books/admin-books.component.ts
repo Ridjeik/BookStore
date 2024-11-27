@@ -44,17 +44,17 @@ export class AdminBooksComponent implements OnInit {
     private datePipe: DatePipe
   ) {
     this.bookForm = this.fb.group({
-      title: ['', Validators.required],
-      author: ['', Validators.required],
-      publisher: ['', Validators.required],
-      publicationDate: [new Date(), Validators.required],
-      pageCount: [1, [Validators.required, Validators.min(1)]],
-      isbn: ['', Validators.required],
-      description: ['', Validators.required],
-      price: [0.01, [Validators.required, Validators.min(0.01)]],
-      coverImage: ['', Validators.required],
-      category: ['', Validators.required],
-      copiesAvailable: [0, [Validators.required, Validators.min(0)]],
+      title: ['Harry Potter and the Sorcerer\'s Stone', Validators.required],
+      author: ['J. K. Rowling', Validators.required],
+      publisher: ['Scholastic Inc.', Validators.required],
+      publicationDate: ['2008-05-08', [Validators.required]],
+      pageCount: [290, [Validators.required, Validators.min(1)]],
+      isbn: ['9780545069670', Validators.required],
+      description: ['The beloved first book of the Harry Potter series, now fully illustrated by award-winning artist Jim Kay. For the first time, J. K. Rowling\'s beloved Harry Potter books will be presented in lavishly illustrated full-color editions. Rowling herself selected artist Jim Kay, whose over 100 illustrations make this deluxe format as perfect a gift for the child being introduced to the series as for the dedicated fan. ', Validators.required],
+      price: [18.45, [Validators.required, Validators.min(0.01)]],
+      coverImage: ['https://pictures.abebooks.com/isbn/9780545069670-us.jpg', Validators.required],
+      category: ['Fantasy', Validators.required],
+      copiesAvailable: [4, [Validators.required, Validators.min(0)]],
     });
 
     this.discountForm = this.fb.group({
@@ -164,6 +164,7 @@ export class AdminBooksComponent implements OnInit {
       };
       this.discounts.push(newDiscount);
       this.saveDiscounts();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Discount added successfully'});
       this.bookService.applyDiscount(newDiscount);
       this.loadBooks();
       this.discountForm.reset({ type: 'book', amount: 0 });
@@ -174,6 +175,8 @@ export class AdminBooksComponent implements OnInit {
     this.bookService.removeDiscount(this.discounts.find(discount => discount.id === id)!);
     this.discounts = this.discounts.filter(discount => discount.id !== id);
     this.saveDiscounts();
+
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Discount deleted successfully'});
   }
 
   setActiveTab(tab: 'books' | 'reviews' | 'discounts'): void {

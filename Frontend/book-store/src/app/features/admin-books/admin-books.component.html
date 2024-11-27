@@ -130,8 +130,7 @@
           <form [formGroup]="discountForm" (ngSubmit)="onDiscountSubmit()" class="discount-form">
             <h3>Add New Discount</h3>
             <div class="form-group">
-              <label for="disc
-ountType">Discount Type</label>
+              <label for="discountType">Discount Type</label>
               <select id="discountType" formControlName="type" (change)="updateDiscountValues()">
                 <option *ngFor="let type of discountTypes" [value]="type">{{ type }}</option>
               </select>

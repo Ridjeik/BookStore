@@ -46,7 +46,8 @@ export class CatalogComponent implements OnInit {
   constructor(private bookService: BookService,
     private messageService: MessageService,
     private cartService: CartService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   show() {
@@ -116,6 +117,11 @@ export class CatalogComponent implements OnInit {
 
     event.stopPropagation();
 
+    if (this.authService.isLoggedIn() === false) {
+      this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Please login to add books to cart.' });
+      return;
+    }
+
     if (this.cartService.getCartItems().find(item => item.itemId === book.id)?.quantity === book.copiesAvailable) {
       this.messageService.add({ severity: 'info', summary: 'Information', detail: 'Sorry, no more copies available.' });
       return;
@@ -123,7 +129,7 @@ export class CatalogComponent implements OnInit {
 
     this.cartService.addItem(book.id);
 
-    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book added to cart' });
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Book added to cart.' });
   }
 
   cardOnClick(id: number) {
