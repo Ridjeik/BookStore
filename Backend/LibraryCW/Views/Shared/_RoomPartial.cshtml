@@ -1,0 +1,12 @@
+﻿@using LibraryCW.Models
+@model RoomDisplayModel
+
+<div class="room">
+    <h2>@Model.RoomName</h2>
+    <div class="shelves">
+        @foreach (var shelf in Model.Shelves)
+        {
+            @Html.Partial("_ShelfPartial", shelf)
+        }
+    </div>
+</div>

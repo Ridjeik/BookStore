@@ -1,0 +1,39 @@
+﻿@using BLL.Models
+@model LibraryCW.Models.BookInfoViewModel
+
+@{
+    var bookInfo = Model.BookInfo;
+    var count = Model.Books.Count();
+}
+
+<h1 class="mb-4" style="color: #333; text-align: center;">Books Information</h1>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <div class="card mb-4" style="border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <img class="card-img-top" src="@bookInfo.Picture.Url" alt="Book cover" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
+            <div class="card-body" style="padding: 20px;">
+                <h5 class="card-title" style="font-size: 1.2rem; font-weight: bold;">@bookInfo.Title.Name</h5>
+                <p class="card-text" style="color: #666;">@bookInfo.Description</p>
+                <p style="margin-bottom: 5px;"><strong>Publication Date:</strong> @bookInfo.DatePublication.ToString("d")</p>
+                <p style="margin-bottom: 5px;"><strong>Page Number:</strong> @bookInfo.PageNumber</p>
+                <p style="margin-bottom: 5px;"><strong>Genres:</strong> @string.Join(", ", bookInfo.BookGenre.Select(a => a.Genre.Name))</p> <!-- Display Genres -->
+                <p style="margin-bottom: 5px;"><strong>Rating:</strong> @bookInfo.Rating</p>
+                <p style="margin-bottom: 5px;"><strong>Available:</strong> @count</p>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Member"))
+                    {
+                        <a href="@Url.Action("MakeReservationMember", "Reservation", new CreateReservationDto { BookId = bookInfo.Id })" class="btn btn-primary">Make Reservation</a>
+                    }
+                    else
+                    {
+                        <form method="post" action="@Url.Action("MakeReservationEmployee", "Reservation", new { bookInfoId = bookInfo.Id })">
+                            <button type="submit" class="btn btn-primary mt-3">Create Reservation</button>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

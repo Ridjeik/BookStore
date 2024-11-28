@@ -1,0 +1,208 @@
+﻿@using LibraryCW.Models
+@model BookCreateViewModel
+
+<style>
+    .beautiful-form {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+        .beautiful-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .beautiful-form label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .beautiful-form input,
+        .beautiful-form select,
+        .beautiful-form textarea {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .beautiful-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .beautiful-form button:hover {
+                background-color: #0056b3;
+            }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+</style>
+
+<div class="beautiful-form">
+    <h2 class="form-title">Create Book</h2>
+
+    <form method="post">
+        <input type="hidden" name="RowId" value="@ViewData["RowId"]" />
+        <input type="hidden" name="NumberInRow" value="@ViewData["NumberInRow"]" />
+
+        <div class="form-group">
+            <label for="datePublication">Date of Publication:</label>
+            <input id="datePublication" name="DatePublication" type="date" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="pageNumber">Page Number:</label>
+            <input id="pageNumber" name="PageNumber" type="number" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="Description" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input id="price" name="Price" type="number" step="0.01" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <input id="rating" name="Rating" type="number" step="0.01" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="titleName">Title:</label>
+            <select id="titleName" name="TitleName" class="form-control select2-title"></select>
+        </div>
+        <div class="form-group">
+            <label for="authorName">Author:</label>
+            <select id="authorName" name="AuthorName" class="form-control select2-author"></select>
+        </div>
+        <div class="form-group">
+            <label for="publisherName">Publisher:</label>
+            <select id="publisherName" name="PublisherName" class="form-control select2-publisher"></select>
+        </div>
+        <div class="form-group">
+            <label for="genreNames">Genres:</label>
+            <select id="genreNames" name="GenreNames" class="form-control select2-genre" multiple></select>
+        </div>
+        <div class="form-group">
+            <label for="pictureUrl">Picture URL:</label>
+            <input id="pictureUrl" name="PictureUrl" type="text" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.select2-title').select2({
+                ajax: {
+                    url: '@Url.Action("GetTitles", "Book")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.name, // Use the name as the ID
+                                    text: item.name
+                                };
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 1,
+                tags: true
+            });
+
+            $('.select2-genre').select2({
+                ajax: {
+                    url: '@Url.Action("GetGenres", "Book")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.name, // Use the name as the ID
+                                    text: item.name
+                                };
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 1,
+            });
+
+            $('.select2-author').select2({
+                ajax: {
+                    url: '@Url.Action("GetAuthors", "Book")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.name, // Use the name as the ID
+                                    text: item.name
+                                };
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 1,
+                tags: true
+            });
+
+            $('.select2-publisher').select2({
+                ajax: {
+                    url: '@Url.Action("GetPublishers", "Book")',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data, function (item) {
+                                return {
+                                    id: item.name, // Use the name as the ID
+                                    text: item.name
+                                };
+                            })
+                        };
+                    }
+                },
+                minimumInputLength: 1,
+                tags: true
+            });
+        });
+    </script>
+}

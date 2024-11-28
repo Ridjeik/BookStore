@@ -1,0 +1,56 @@
+﻿@model LibraryCW.Models.ReservationViewModel
+
+<div class="d-flex justify-content-center align-items-center mt-4">
+    <div class="text-center" style="min-width: 1200px;">
+        <h1 class="mb-4 text-primary">Reservation Confirmation</h1>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mb-4 border-primary shadow">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary font-weight-bold reservation-message" style="display: none;">Thank you for making a reservation.</h5>
+                        <p class="card-text text-muted">Here are the details of your reservation:</p>
+
+                        <div class="reservation-details">
+                            <p class="mb-2"><i class="fas fa-book text-primary" style="margin-right: 0.5rem;"></i><strong>Book:</strong> @Model.BookInfoViewModel.BookInfo.Title.Name</p>
+                            <p class="mb-2"><i class="fas fa-user text-primary" style="margin-right: 0.5rem;"></i><strong>Member:</strong> @Model.MemberUsername</p>
+                            <p class="mb-2"><i class="fas fa-calendar-alt text-primary" style="margin-right: 0.5rem;"></i><strong>Reservation Date:</strong> @Model.ReservationDate</p>
+                            <p class="mb-2"><i class="fas fa-user-tie text-primary" style="margin-right: 0.5rem;"></i><strong>Employee:</strong> @Model.EmployeeUsername</p>
+                            <p class="mb-2"><i class="fas fa-barcode text-primary" style="margin-right: 0.5rem;"></i><strong>Book ID:</strong> @Model.BookId</p>
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button class="btn btn-primary" id="confirmReservationBtn">Confirm Reservation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-center reservation-message">Click submit and we will contact you when your book is ready for pickup.</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $("#confirmReservationBtn").click(function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '@(Url.Action("CreateReservation", "Reservation"))',
+                    type: 'POST',
+                    data: { bookInfoId: '@Model.BookInfoViewModel.BookInfo.Id', employeeId: '@Model.EmployeeId' },
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.href = '@Url.Action("ReservationDetails", "Reservation")' + '?reservationId=' + response.reservationId;
+                        } else {
+                            alert(response.error);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+}

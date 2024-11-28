@@ -1,0 +1,160 @@
+﻿@model LibraryCW.Models.BookViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .card {
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+        background-color: #f8f8f8;
+    }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .book-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #444;
+        transition: color 0.3s ease-in-out;
+    }
+
+        .book-title:hover {
+            color: #007bff;
+        }
+
+    .book-author {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 10px;
+    }
+
+    .book-cover {
+        width: 120px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .book-item {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+        .book-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: #fff;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+</style>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Most Popular Books</h5>
+                    <ul class="list-unstyled">
+                        @foreach (var book in Model.MostPopularBooks)
+                        {
+                            <li class="book-item mb-3">
+                                <img src="@book.Picture.Url" alt="@book.Title.Name cover" class="book-cover">
+                                <h6>@book.Title.Name</h6>
+                                <p class="text-muted mb-0">@book.Author.Name</p>
+                                <a href="@Url.Action("BooksInfo", "Book", new { id = book.Id })" class="btn btn-primary">View Details</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Recommended Books</h5>
+                    <ul class="list-unstyled">
+                        @foreach (var book in Model.RecommendedBooks)
+                        {
+                            <li class="book-item mb-3">
+                                <img src="@book.Picture.Url" alt="@book.Title.Name cover" class="book-cover">
+                                <h6>@book.Title.Name</h6>
+                                <p class="text-muted mb-0">@book.Author.Name</p>
+                                <a href="@Url.Action("BooksInfo", "Book", new { id = book.Id })" class="btn btn-primary">View Details</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Recently Added Books</h5>
+                    <ul class="list-unstyled">
+                        @foreach (var book in Model.RecentlyAddedBooks)
+                        {
+                            <li class="book-item mb-3">
+                                <img src="@book.Picture.Url" alt="@book.Title.Name cover" class="book-cover">
+                                <h6>@book.Title.Name</h6>
+                                <p class="text-muted mb-0">@book.Author.Name</p>
+                                <a href="@Url.Action("BooksInfo", "Book", new { id = book.Id })" class="btn btn-primary">View Details</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a href="@Url.Action("AllBooks", "Book")" class="btn btn-secondary">View All Books</a>
+    </div>
+</div>

@@ -1,0 +1,276 @@
+﻿@using LibraryCW.Models
+@model ShelfDisplayModel
+
+<style>
+    .shelf-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.shelf-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.shelf-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.shelf-actions .btn {
+    margin: 0 10px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-success:hover {
+    background-color: #1e7e34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.row {
+    margin-bottom: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #555;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-gap: 40px;
+    justify-content: center;
+}
+
+.book-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.book-cover img {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.book-details {
+    padding: 20px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.book-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.book-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.book-title a:hover {
+    color: #007bff;
+}
+
+.book-number {
+    font-size: 16px;
+    color: #777;
+}
+
+.btn-create-book {
+    margin-top: 20px;
+}
+
+#createRow, #deleteRow, #createBook {
+    width: 140px;
+    height: 48px;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@@media (max-width: 768px) {
+    .shelf-container {
+        padding: 20px;
+    }
+
+    .shelf-title {
+        font-size: 28px;
+    }
+
+    .row-title {
+        font-size: 22px;
+    }
+
+    .book-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-gap: 20px;
+    }
+
+    .book-title {
+        font-size: 18px;
+    }
+
+    .book-number {
+        font-size: 14px;
+    }
+}
+</style>
+
+<div class="shelf-container">
+    <h2 class="shelf-title">ShelfId: @Model.ShelfId</h2>
+    <h2 class="shelf-title">Shelf Genres: @string.Join(", ", Model.ShelfGenres)</h2>
+    <div class="shelf-actions">
+        <a href="@Url.Action("ShelfUpdate", "Room", new { shelfId = Model.ShelfId })" class="btn btn-primary">Update Shelf</a>
+        @if(!Model.Rows.Any())
+		{
+			<a href="@Url.Action("ShelfDelete", "Room", new { shelfId = Model.ShelfId })" class="btn btn-danger">Delete Shelf</a>
+		}
+        <a href="@Url.Action("RowCreate", "Room", new { shelfId = Model.ShelfId })" id="createRow" class="btn btn-success">Create Row</a>
+    </div>
+    @foreach (var row in Model.Rows)
+    {
+        @if (!row.Books.Any())
+        {
+            <a href="@Url.Action("RowDelete", "Room", new { rowId = row.RowId })" id="deleteRow" class="btn btn-danger">Delete Row</a>
+        }
+        <div class="row">
+            <h3 class="row-title">Row Number: @row.RowNumber</h3>
+            <div class="book-grid">
+                @foreach (var book in row.Books)
+                {
+                    <div class="book-card">
+                        <div class="book-cover">
+                            <!-- Here you can add a placeholder book cover image or use a default image -->
+                            <img src="@book.Picture" alt="Book Cover" />
+                        </div>
+                        <div class="book-details">
+                            <h4 class="book-title">
+                                <a href="@Url.Action("BookView", "Book", new { bookId = book.Id })">@book.Title</a>
+                            </h4>
+                            <p class="book-number">Book Number in Row: @book.BookNumberInRow</p>
+                        </div>
+                    </div>
+                }
+                @if(row.Books.Count < 20)
+				{
+                    <a href="@Url.Action("BookCreate", "Book", new { rowId = row.RowId, numberInRow = row.Books.Count + 1 })" id="createBook" class="btn btn-success">Create Book</a>
+				}
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#createRow').click(function (e) {
+                e.preventDefault();
+
+                var shelfId = '@Model.ShelfId';
+                var rowNumber = '@(Model.Rows.LastOrDefault()?.RowNumber ?? 0 + 1)';
+
+                $.ajax({
+                    url: '@Url.Action("RowCreate", "Room")',
+                    type: 'POST',
+                    data: { shelfId: shelfId , number: rowNumber},
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('An error occurred while creating the row.');
+                    }
+                });
+            });
+
+            $('#deleteRow').click(function (e) {
+                e.preventDefault();
+
+                var shelfId = '@Model.ShelfId';
+
+                $.ajax({
+                    url: '@Url.Action("RowDelete", "Room")',
+                    data: { shelfId: shelfId },
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('An error occurred while creating the row.');
+                    }
+                });
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,15 @@
+﻿using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DAL.Repositories.Interfaces
+{
+    public interface IEmployeeRepository : IBaseRepository<Employee, string>
+    {
+        public Task<Employee> GetEmployeeWithInfoAsync(string id);
+        public Task<IEnumerable<Employee>> GetEmployeeWithInfoAsync();
+    }
+}

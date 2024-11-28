@@ -1,0 +1,56 @@
+﻿@model IEnumerable<LibraryCW.Models.PopularBook>
+
+   <style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Style the table header */
+    .table thead th {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: left;
+    }
+
+    /* Style the table rows */
+    .table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:hover {
+        background-color: #e6e6e6;
+    }
+
+    /* Style the table cells */
+    .table th, .table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+   </style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Book Info ID</th>
+            <th>Title</th>
+            <th>All count of reservations</th>
+            <th>Borrowed now count</th>
+            <th>Available count of books</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.BookInfoId</td>
+                <td>@book.Title</td>
+                <td>@book.ReservationCount</td>
+                <td>@book.BorrowedCount</td>
+                <td>@book.AvailableCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

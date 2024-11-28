@@ -1,0 +1,12 @@
+﻿@using LibraryCW.Models
+@model RowDisplayModel
+
+<div class="row">
+    <h4>Row Number: @Model.RowNumber</h4>
+    <div class="books">
+        @foreach (var book in Model.Books)
+        {
+            @Html.Partial("_BookPartial", book)
+        }
+    </div>
+</div>

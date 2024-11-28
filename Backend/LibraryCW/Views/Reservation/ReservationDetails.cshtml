@@ -1,0 +1,158 @@
+﻿@using Domain.Enums
+@model LibraryCW.Models.ReservationDetailsViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 mt-3 shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h2 class="card-title">@Model.Member.User.UserName's Member profile</h2>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-envelope icon-spacing text-primary"></i><strong>Email:</strong> @Model.Member.User.Email</p>
+                    <p><i class="fas fa-phone icon-spacing text-primary"></i><strong>Phone:</strong> @Model.Member.User.PhoneNumber</p>
+                </div>
+            </div>
+
+            <div class="card mb-4 mt-3 shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h2 class="card-title">@Model.Employee.User.UserName's Employee profile</h2>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-envelope icon-spacing text-primary"></i><strong>Email:</strong> @Model.Employee.User.Email</p>
+                    <p><i class="fas fa-phone icon-spacing text-primary"></i><strong>Phone:</strong> @Model.Employee.User.PhoneNumber</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mt-3">
+            <h2 class="mb-4 text-primary">Reservation Details</h2>
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title">Book Information</h5>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-book icon-spacing text-secondary"></i><strong>Book ID:</strong> @Model.BookId</p>
+                    <p><i class="fas fa-book-open icon-spacing text-secondary"></i><strong>Book Name:</strong> @Model.BookInfoViewModel.BookInfo.Title.Name</p>
+                    <p><i class="fas fa-user icon-spacing text-secondary"></i><strong>Author:</strong> @Model.BookInfoViewModel.BookInfo.Author.Name</p>
+                    <div class="book-image-container">
+                        <img src="@Model.BookInfoViewModel.BookInfo.Picture.Url" alt="Book image" class="img-fluid rounded mx-auto d-block border border-secondary">
+                        @if (Model.Events.Any(e => e.EventType == Domain.Enums.EventType.BookReturned))
+                        {
+                            <div class="book-image-overlay">
+                                <span class="book-status-text">Returned</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <div class="card mb-4 shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="card-title">Reservation Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><i class="fas fa-calendar-alt icon-spacing text-secondary"></i><strong>Reservation Date:</strong> @Model.ReservationDate</p>
+                        <h6 class="mt-3 text-secondary"><i class="fas fa-calendar-alt icon-spacing text-secondary"></i>Events:</h6>
+                        <ul class="list-unstyled">
+                            @foreach (var reservationEvent in Model.Events)
+                            {
+                                <li>
+                                    <i class="fas fa-calendar-day icon-spacing text-secondary"></i>
+                                    <span class="event-description">@reservationEvent.Description</span>
+                                    <span class="event-date">on @reservationEvent.Date.ToShortDateString()</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mb-4 shadow">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="card-title">Employee panel</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><a class="book-details-link" href="@Url.Action("BookView", "Book", new { bookId = Model.BookId })">View Book Details</a></p>
+                        <h6 class="mt-3 text-secondary"><i class="fas fa-calendar-alt icon-spacing text-secondary"></i>Set events:</h6>
+                        <ul class="list-unstyled">
+                            @{
+                                var lastEventType = Model.Events.OrderByDescending(e => e.Date).FirstOrDefault()?.EventType ?? 0;
+                                foreach (EventType eventType in Enum.GetValues(typeof(EventType)))
+                                {
+                                    if (eventType > lastEventType)
+                                    {
+                                        <form method="post" action="@Url.Action("CreateEvent", "Event", new { reservationId = Model.ReservationId, eventType = eventType })">
+                                            <button type="submit" class="dropdown-item">@eventType</button>
+                                        </form>
+                                    }
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }
+            else{
+                <div class="card mb-4 shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="card-title">Reservation Details</h5>
+                </div>
+                <div class="card-body">
+                    <p><i class="fas fa-calendar-alt icon-spacing text-secondary"></i><strong>Reservation Date:</strong> @Model.ReservationDate</p>
+                    <p><i class="fas fa-user-tie icon-spacing text-secondary"></i><strong>Employee:</strong> @Model.Employee.User.UserName</p>
+                    <h6 class="mt-3 text-secondary"><i class="fas fa-calendar-alt icon-spacing text-secondary"></i>Events:</h6>
+                    <ul class="list-unstyled">
+                        @foreach (var reservationEvent in Model.Events)
+                        {
+                            <li>
+                                <i class="fas fa-calendar-day icon-spacing text-secondary"></i>
+                                <span class="event-description">@reservationEvent.Description</span>
+                                <span class="event-date">on @reservationEvent.Date.ToShortDateString()</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .icon-spacing {
+        margin-right: 0.5rem;
+    }
+
+    .book-details-link {
+        color: blue;
+        text-decoration: none;
+    }
+
+    .event-description {
+        font-weight: bold;
+    }
+
+    .event-date {
+        font-style: italic;
+    }
+
+    .book-image-container {
+        position: relative;
+    }
+
+    .book-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .book-status-text {
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+</style>

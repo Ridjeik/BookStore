@@ -1,0 +1,97 @@
+﻿@model LibraryCW.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    .container-main {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .form-group .validation {
+        color: red;
+    }
+    .form-group input[type="submit"] {
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        color: white;
+        cursor: pointer;
+    }
+    .form-group input[type="submit"]:hover {
+        background-color: #449d44;
+        border-color: #398439;
+    }
+    .login {
+        text-align: center;
+    }
+</style>
+
+<div class="container-main">
+    <h2>@ViewData["Title"]</h2>
+    @using (Html.BeginForm("Register", "Login", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" type="email" name="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" type="password" name="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword">ConfirmPassword</label>
+            <input asp-for="ConfirmPassword" type="password" name="ConfirmPassword" />
+            <span asp-validation-for="ConfirmPassword"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Name">Name</label>
+            <input asp-for="Name" name="Name" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Surname">Surname</label>
+            <input asp-for="Surname" name="Surname" />
+            <span asp-validation-for="Surname"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Username">Username</label>
+            <input asp-for="Username" name="Username" />
+            <span asp-validation-for="Username"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="PhoneNumber">PhoneNumber</label>
+            <input asp-for="PhoneNumber" name="PhoneNumber" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+        var errorMessage = TempData["ErrorMessage"] as string;
+        if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger">
+                @errorMessage
+            </div>
+        }
+        <div class="form-group">
+            <input type="submit" value="Register" />
+        </div>
+    }
+    <div class="login">
+        <p>Already have an account? <a href="@Url.Action("Index", "Login")">Login here</a>.</p>
+    </div>
+</div>

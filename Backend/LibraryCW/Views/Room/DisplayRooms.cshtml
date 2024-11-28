@@ -1,0 +1,160 @@
+﻿@using LibraryCW.Models
+@model IEnumerable<RoomDisplayModel>
+<style>
+    .room-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .room-card {
+        background-color: #f8f8f8;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .room-header {
+        background-color: #444;
+        color: #fff;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .room-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .shelf-list {
+        padding: 20px;
+    }
+
+    .shelf-card {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        margin-bottom: 15px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .shelf-header {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .shelf-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 0 0 10px;
+        color: #333;
+    }
+
+    .shelf-actions .btn {
+        margin-left: 10px;
+    }
+
+    .btn-primary {
+        background-color: #444;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #222;
+        }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .page-actions .btn {
+        margin-left: 10px;
+    }
+
+    .room-actions .btn {
+        margin-left: 10px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+        .btn-success:hover {
+            background-color: #1e7e34;
+        }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+</style>
+
+<div class="room-container">
+    <div class="page-header">
+        <h1 class="page-title">Rooms</h1>
+        <div class="page-actions">
+            <a href="@Url.Action("RoomCreate", "Room")" class="btn btn-success">Create Room</a>
+        </div>
+    </div>
+
+    @foreach (var room in Model)
+    {
+        <div class="room-card">
+            <div class="room-header">
+                <h2 class="room-title">@room.RoomName</h2>
+                <div class="room-actions">
+                    <a href="@Url.Action("RoomUpdate", "Room", new { roomId = room.RoomId })" class="btn btn-primary">Update</a>
+                    <a href="@Url.Action("ShelfCreate", "Room", new { roomId = room.RoomId })" class="btn btn-success">Add Shelf</a>
+                    @if (room.Shelves.Count == 0)
+                    {
+                        <a href="@Url.Action("DeleteRoom", "Room", new { roomId = room.RoomId })" class="btn btn-danger">Delete</a>
+                    }
+                </div>
+
+            </div>
+            <div class="shelf-list">
+                @foreach (var shelf in room.Shelves)
+                {
+                    <div class="shelf-card">
+                        <div class="shelf-header">
+                            <h4>ShelfId: @shelf.ShelfId</h4>
+                            <h3 class="shelf-title">Shelf Genres: @string.Join(", ", shelf.ShelfGenres)</h3>
+                        </div>
+                        <div class="shelf-actions">
+                            <a href="@Url.Action("ShelfRows", new { shelfId = shelf.ShelfId })" class="btn btn-primary">View Rows</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,9 @@
+﻿@using LibraryCW.Models
+@model ShelfDisplayModel
+
+<div class="shelf">
+    <h3>Shelf Genres: @string.Join(", ", Model.ShelfGenres)</h3>
+    <p>
+        @Html.ActionLink("View Rows", "ShelfRows", new { shelfId = Model.ShelfId }, new { @class = "btn btn-primary" })
+    </p>
+</div>

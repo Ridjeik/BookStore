@@ -1,0 +1,87 @@
+﻿@model LibraryCW.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    .container-main {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group .validation {
+            color: red;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+            color: white;
+            cursor: pointer;
+        }
+
+            .form-group input[type="submit"]:hover {
+                background-color: #449d44;
+                border-color: #398439;
+            }
+
+    .register {
+        text-align: center;
+    }
+</style>
+
+<div class="container-main">
+    <h2>Login</h2>
+    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" id="Email" name="Email" asp-for="Email" required />
+            <span asp-validation-for="Email" class="validation"></span>
+        </div>
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" id="Password" name="Password" asp-for="Password" required />
+            <span asp-validation-for="Password" class="validation"></span>
+        </div>
+        <div asp-validation-summary="All" class="text-danger validation"></div>
+        var errorMessage = TempData["ErrorMessage"] as string;
+        if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger">
+                @errorMessage
+            </div>
+        }
+        <div class="form-group">
+            <input type="submit" value="Login" />
+        </div>
+    }
+    <div class="register">
+        <p>Don't have an account? <a href="@Url.Action("Register", "Login")">Register here</a>.</p>
+    </div>
+</div>
+
